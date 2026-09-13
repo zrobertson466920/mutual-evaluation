@@ -1,0 +1,7 @@
+/.lake/
+/.verification/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.swp
+*.swo
