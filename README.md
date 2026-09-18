@@ -1,6 +1,13 @@
 # Mutual evaluation
 
-Lean 4 / Mathlib formalization, in namespace `MutualEvaluation`.
+Lean 4 / Mathlib formalization accompanying:
+
+**Mutual Evaluation and Supervision without Peers**  
+Zachary Robertson, 2026.  
+[Paper](https://arxiv.org/abs/2609.20789).
+[Expository article](https://zrobertson466920.github.io/MutualEvaluation/).
+
+Lean namespace `MutualEvaluation`.
 Toolchain: Lean `4.33.0`, Mathlib `v4.33.0`.
 
 ## Interface
@@ -79,3 +86,18 @@ has an internal same-task-pair-law factorization; no such claim is made for KL.
 Sampling-cost and variance identities, learned-score guarantees, and adaptive
 strategies are not implemented. No semantic correctness, unique-equilibrium,
 or efficient-learning guarantee is claimed.
+
+## Citation
+
+If you use the results or formalization in this repository, please cite the paper:
+
+```bibtex
+@article{robertson2026mutual,
+  title   = {Mutual Evaluation and Supervision without Peers},
+  author  = {Robertson, Zachary},
+  year    = {2026},
+  eprint  = {2609.20789},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.GT}
+}
+```
