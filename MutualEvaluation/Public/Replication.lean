@@ -111,7 +111,9 @@ Marginalizing out each $x_n$ the law of the sequence $(Z_n)_{n \ge 1}$ is also i
 namespace MutualEvaluation.Replication
 open Binary
 
-abbrev Transcript (R : Type) := R × ((ℕ → R) × (ℕ → R))
+abbrev SampleSpace (R : Type) := R × ((ℕ → R) × (ℕ → R))
+
+abbrev Transcript (R : Type) := SampleSpace R
 
 section Sampling
 variable {X R : Type} [MeasurableSpace R]
@@ -120,18 +122,20 @@ def iid (p : PMF R) : Measure (ℕ → R) :=
   Measure.infinitePi (fun _ : ℕ => p.toMeasure)
 
 def conditionalTranscriptLaw (P : PMF X) (k : Kernel X R) (x : X) :
-    Measure (Transcript R) :=
+    Measure (SampleSpace R) :=
   (k x).toMeasure.prod ((iid (k x)).prod (iid (P.bind k)))
 
 def transcriptLaw [Fintype X] (P : PMF X) (k : Kernel X R) :
-    Measure (Transcript R) :=
+    Measure (SampleSpace R) :=
   ∑ x, P x • conditionalTranscriptLaw P k x
 
 end Sampling
 
 /-
-**Reading note.** A transcript t consists of the anchor `t.1`, the specific
-stream `t.2.1`, and the null stream `t.2.2`. Stream entry 0 is manuscript call 1.
+**Reading note.** `SampleSpace R` is the infinite proof space; `Transcript R`
+is retained as a definitional alias. A point t consists of the anchor `t.1`,
+the specific stream `t.2.1`, and the null stream `t.2.2`.
+Stream entry 0 is manuscript call 1.
 Infinite streams describe potential calls, not the calls actually requested
 or charged. `P.bind k` integrates out a fresh task on each null call.
 `Measure.infinitePi` is the independent product law; `.prod` is the independent
@@ -185,13 +189,13 @@ internal dependency.
 def firstHit (p : ℕ → Prop) : ℕ∞ :=
   if h : ∃ n, p n then ((Nat.find h + 1 : ℕ) : ℕ∞) else ⊤
 
-def R_specific {R : Type} (c : Critic R) (t : Transcript R) : ℕ∞ :=
+def R_specific {R : Type} (c : Critic R) (t : SampleSpace R) : ℕ∞ :=
   firstHit (fun n => Binary.Rel c t.1 (t.2.1 n))
 
-def R_null {R : Type} (c : Critic R) (t : Transcript R) : ℕ∞ :=
+def R_null {R : Type} (c : Critic R) (t : SampleSpace R) : ℕ∞ :=
   firstHit (fun n => Binary.Rel c t.1 (t.2.2 n))
 
-theorem annotation_clocks {R B : Type} (g : R → B) (t : Transcript R) :
+theorem annotation_clocks {R B : Type} (g : R → B) (t : SampleSpace R) :
     R_specific (annotate g) t = firstHit (fun n => g t.1 = g (t.2.1 n)) ∧
       R_null (annotate g) t = firstHit (fun n => g t.1 = g (t.2.2 n)) := by
   apply_rules [_root_.MutualEvaluation.Replication.annotation_clocks_impl]
@@ -234,7 +238,7 @@ The marginal search is not run after a mismatch.
 and $K_{\mathrm{same}}=R_{\mathrm{specific}}$. No additional clocks are defined.
 -/
 
-def W_chiSquared {R : Type} (c : Critic R) (t : Transcript R) : ℝ :=
+def W_chiSquared {R : Type} (c : Critic R) (t : SampleSpace R) : ℝ :=
   if Valid c then
     if Binary.Rel c t.1 (t.2.1 0) then
       if R_null c t = ⊤ then 0 else (R_null c t).toNat - 1
@@ -280,7 +284,7 @@ Each mechansim can be defined from the specific and null replication variables. 
 
 def H (n : ℕ) : ℝ := ∑ j ∈ Finset.range n, ((j : ℝ) + 1)⁻¹
 
-def W_KL {R : Type} (c : Critic R) (t : Transcript R) : ℝ :=
+def W_KL {R : Type} (c : Critic R) (t : SampleSpace R) : ℝ :=
   if Valid c then
     if R_null c t = ⊤ ∨ R_specific c t = ⊤ then 0
     else H ((R_null c t).toNat - 1) - H ((R_specific c t).toNat - 1)

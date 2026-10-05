@@ -21,7 +21,7 @@ their author annotations.** Theorems include proofs checked by Lean.
 | [TwoPairOutcome](MutualEvaluation/Public/TwoPairOutcome.lean) | Paper game, sampling, robustness, and equilibrium | 14 |
 | [Abstract](MutualEvaluation/Public/Abstract.lean) | Value envelopes, regret, separability, and committed loss | 13 |
 | [CriticTiming](MutualEvaluation/Public/CriticTiming.lean) | CA/VPP timing, conditional transfer, Boolean objective, and example | 24 |
-| [Replication](MutualEvaluation/Public/Replication.lean) | Validity, Pearson/KL replication payments, information, regret, and single-worker equilibrium | 69 |
+| [Replication](MutualEvaluation/Public/Replication.lean) | Validity, Pearson/KL replication payments, information, regret, and single-worker equilibrium | 70 |
 
 Import all five modules with:
 
@@ -83,8 +83,10 @@ singletons. Both payments have termination, integrability, unbiasedness,
 information envelopes, posterior regret, and truthful single-worker equilibrium
 results. Invalid critics receive zero.
 
-Replication uses one fixed reporting kernel per experiment, not within-loop
-adaptive strategies. Its equilibrium is distinct from TwoPairOutcome's two-worker Nash
+Replication's `SampleSpace R` describes the anchor and two infinite streams of
+potential draws, not the calls actually requested. `Transcript R` remains a
+definitional alias. Replication uses one fixed reporting kernel per experiment,
+not within-loop adaptive strategies. Its equilibrium is distinct from TwoPairOutcome's two-worker Nash
 predicate and is not a `Model.robustness` certificate. Pearson's expected score
 has an internal same-task-pair-law factorization; no such claim is made for KL.
 
