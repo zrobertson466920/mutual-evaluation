@@ -13,7 +13,8 @@ PUBLIC = ROOT / "MutualEvaluation/Public"
 
 # Counts and audit routing are technical regression checks, not annotations.
 MODULES = {
-    "Core": (19, "Core"),
+    "Core": (5, "Core"),
+    "TwoPairOutcome": (14, "TwoPairOutcome"),
     "Abstract": (13, "Abstract"),
     "CriticTiming": (27, "PublicTiming"),
     "Replication": (69, "PublicReplication"),
@@ -115,7 +116,27 @@ def public_declarations():
     }
 
 
+def project_import_closure(module):
+    """Follow project imports independently of successful Lean elaboration."""
+    seen = set()
+    pending = [module]
+    while pending:
+        current = pending.pop()
+        if current in seen:
+            continue
+        seen.add(current)
+        path = ROOT / (current.replace(".", "/") + ".lean")
+        assert path.is_file(), ("Missing project import", current)
+        pending.extend(
+            name for name in re.findall(r"^import (\S+)$", uncomment(path.read_text()), re.M)
+            if name.startswith("MutualEvaluation"))
+    return seen
+
+
 def check():
+    assert project_import_closure("MutualEvaluation.Public.Core") == {
+        "MutualEvaluation.Public.Core"
+    }, "Core must not import paper declarations"
     selected = public_declarations()
     owners = {}
     for path in (ROOT / "MutualEvaluation").rglob("*.lean"):
@@ -137,8 +158,8 @@ def check():
             ], (name, owners.get(name))
         audit = (ROOT / "Audit" / (batch + ".lean")).read_text()
         inspected = re.findall(r"^#print axioms (\S+)$", audit, re.M)
-        if module == "Core":
-            # The Core inspection opens MutualEvaluation and uses short names.
+        if module in {"Core", "TwoPairOutcome"}:
+            # These inspections open MutualEvaluation and use short names.
             inspected = ["MutualEvaluation." + name for name in inspected]
             displayed = re.findall(r"^#print (?!axioms\b)(\S+)$", audit, re.M)
             assert ["MutualEvaluation." + name for name in displayed] == names

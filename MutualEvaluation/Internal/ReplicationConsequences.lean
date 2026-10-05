@@ -9,7 +9,7 @@ including integrability and the invalid-critic branch. They are not hypotheses
 or replacements for the loop integrals.
 
 These are channel-level conclusions for one fixed reporting kernel per
-experiment. They do not assert Core.robustness, uniqueness, semantic correctness,
+experiment. They do not assert TwoPairOutcome.robustness, uniqueness, semantic correctness,
 or protection against within-loop adaptive reporting.
 -/
 

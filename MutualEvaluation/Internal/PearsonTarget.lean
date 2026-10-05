@@ -158,7 +158,7 @@ theorem truthful_global_optimal (c : Critic R)
 
 /-- The two unilateral best-response inequalities for a single worker and
 critic. Worker deviations choose one kernel before the experiment. These are
-channel-level target-score conclusions, not a Core Game or loop certificate. -/
+channel-level target-score conclusions, not a TwoPairOutcome Game or loop certificate. -/
 theorem truthful_best_responses (c : Critic R)
     (hc : payoff c P k = value P k) :
     (∀ d, payoff d P k ≤ payoff c P k) ∧

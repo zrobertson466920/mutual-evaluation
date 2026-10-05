@@ -17,12 +17,13 @@ their author annotations.** Theorems include proofs checked by Lean.
 
 | Module | Material | Declarations |
 |---|---|---:|
-| [Core](MutualEvaluation/Public/Core.lean) | Games, sampling, scores, robustness, and equilibrium | 19 |
+| [Core](MutualEvaluation/Public/Core.lean) | Shared kernels, scores, and independence | 5 |
+| [TwoPairOutcome](MutualEvaluation/Public/TwoPairOutcome.lean) | Paper game, sampling, robustness, and equilibrium | 14 |
 | [Abstract](MutualEvaluation/Public/Abstract.lean) | Value envelopes, regret, separability, and committed loss | 13 |
 | [CriticTiming](MutualEvaluation/Public/CriticTiming.lean) | CA/VPP timing, conditional transfer, Boolean objective, and example | 27 |
 | [Replication](MutualEvaluation/Public/Replication.lean) | Validity, Pearson/KL replication payments, information, regret, and single-worker equilibrium | 69 |
 
-Import all four modules with:
+Import all five modules with:
 
 ```lean
 import MutualEvaluation
@@ -67,7 +68,7 @@ its interpretation require author review.
 
 Consult the Public declarations and their annotations for exact hypotheses.
 
-Core's `robust` and `Model.robustness` concern additional garbling of **worker 0
+TwoPairOutcome's `robust` and `Model.robustness` concern additional garbling of **worker 0
 only**, independently on that worker's replicas. `robustBoth` requires robustness
 for both workers. Truthful joint optimality needs an additional value-maximality
 bound; one-sided robustness alone does not imply it.
@@ -79,7 +80,7 @@ information envelopes, posterior regret, and truthful single-worker equilibrium
 results. Invalid critics receive zero.
 
 Replication uses one fixed reporting kernel per experiment, not within-loop
-adaptive strategies. Its equilibrium is distinct from Core's two-worker Nash
+adaptive strategies. Its equilibrium is distinct from TwoPairOutcome's two-worker Nash
 predicate and is not a `Model.robustness` certificate. Pearson's expected score
 has an internal same-task-pair-law factorization; no such claim is made for KL.
 

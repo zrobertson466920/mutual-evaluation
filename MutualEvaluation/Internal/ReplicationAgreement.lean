@@ -127,8 +127,8 @@ theorem u_chiSquared_eq_of_pair_law_eq {Z : Type} [Fintype Z]
     rp_Replication_u_chiSquared c P k = rp_Replication_u_chiSquared c Q l := by
   rw [u_chiSquared_pair_law, u_chiSquared_pair_law, he]
 
-/-- Explicit correspondence with Core's primary-worker self-pair projection.
-This is a payoff identity, not a Core robustness certificate. -/
+/-- Explicit correspondence with TwoPairOutcome's primary-worker self-pair projection.
+This is a payoff identity, not a TwoPairOutcome robustness certificate. -/
 theorem u_chiSquared_core_law (G : Game X R)
     (σ : Fin 2 → Kernel R R) (c : Critic R) :
     rp_Replication_u_chiSquared c G.P (fun x => (G.w 0 x).bind (σ 0)) =

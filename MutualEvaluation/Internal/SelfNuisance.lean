@@ -27,7 +27,7 @@ abbrev G : Game Bool (Bool × Bool) := game workers
 
 
 
-def ρ : PMF (Outcome (Bool × Bool)) := law G truth
+def ρ : PMF (TwoPairOutcome (Bool × Bool)) := law G truth
 
 private theorem mass_worker (x : Bool) (a : Bool × Bool) :
     mass (rp_Self_Nuisance_worker x) a = if a.1 = x then (1 / 2 : ℝ) else 0 := by

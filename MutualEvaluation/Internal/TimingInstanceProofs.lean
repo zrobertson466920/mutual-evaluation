@@ -6,7 +6,7 @@ import MutualEvaluation.Internal.TimingPayoffProofs
 # Timing instances: two-task payment and reversible reporting
 
 The payment samples two independent cross pairs. They are not the two
-same-task replicas of one Core outcome. The fair-bit example compares
+same-task replicas of one TwoPairOutcome outcome. The fair-bit example compares
 law-level critic commitment and reoptimization, not samplewise critic selection.
 -/
 
@@ -61,7 +61,7 @@ theorem expected_eq (c : Critic Bool) (μ : PMF (Bool × Bool)) :
 
 /-- A two-independent-task realization of the primitive record-law payoff. -/
 theorem expected_record_eq {X : Type} (P : PMF X)
-    (f : Fin 2 → Kernel X Bool) (c : Critic Bool) (ρ : PMF (Outcome Bool)) :
+    (f : Fin 2 → Kernel X Bool) (c : Critic Bool) (ρ : PMF (TwoPairOutcome Bool)) :
     expected c (cross ρ) = (mediatedGame P f).u c ρ :=
   expected_eq c (cross ρ)
 
@@ -74,8 +74,8 @@ def workers : Fin 2 → Kernel Bool Bool := fun _ => PMF.pure
 abbrev bonus : Game Bool Bool := bonusGame prior workers
 abbrev mediated : Game Bool Bool := mediatedGame prior workers
 def flip : Kernel Bool Bool := fun b => PMF.pure (!b)
-def ρ : PMF (Outcome Bool) := law bonus truth
-def ν : PMF (Outcome Bool) := law bonus (Function.update truth 0 flip)
+def ρ : PMF (TwoPairOutcome Bool) := law bonus truth
+def ν : PMF (TwoPairOutcome Bool) := law bonus (Function.update truth 0 flip)
 
 private theorem cross_truth :
     cross ρ = prior.bind (fun x => PMF.pure (x, x)) := by

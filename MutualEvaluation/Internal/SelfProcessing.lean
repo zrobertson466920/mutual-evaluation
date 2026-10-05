@@ -8,7 +8,7 @@ import MutualEvaluation.Internal.FiberVariance
 
 The report alphabets may differ and need not have full support. The exact
 information loss is a weighted posterior variance under the reporting kernel.
-This is finite-channel algebra, not a replication-loop or Core robustness proof.
+This is finite-channel algebra, not a replication-loop or TwoPairOutcome robustness proof.
 -/
 
 noncomputable section

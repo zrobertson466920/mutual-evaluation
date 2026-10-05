@@ -18,13 +18,13 @@ variable {X R : Type} (G : Game X R)
 /-! ## Payoff transfer -/
 
 /-- The new-law critic d need not be the committed old-law critic c. -/
-theorem transfer_le [Fintype R] (c d : R × R → G.S) (ρ ν : PMF (Outcome R))
+theorem transfer_le [Fintype R] (c d : R × R → G.S) (ρ ν : PMF (TwoPairOutcome R))
     (hc : G.u c ρ = V G ρ) (hv : V G ν ≤ V G ρ) :
     G.u d ν ≤ G.u c ρ := by
   rw [hc]
   exact (sub_nonneg.mp (regret_nonneg G d ν)).trans hv
 
-theorem transfer_lt [Fintype R] (c d : R × R → G.S) (ρ ν : PMF (Outcome R))
+theorem transfer_lt [Fintype R] (c d : R × R → G.S) (ρ ν : PMF (TwoPairOutcome R))
     (hc : G.u c ρ = V G ρ) (hv : V G ν < V G ρ) :
     G.u d ν < G.u c ρ := by
   rw [hc]

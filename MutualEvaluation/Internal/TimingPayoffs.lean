@@ -4,7 +4,7 @@ import MutualEvaluation.Internal.CriticQuotient
 
 /-!
 INTERNAL — downstream payoff entry point and equilibrium consequence.
-TimingPayoffProofs supplies the calculations using expanded Core expressions,
+TimingPayoffProofs supplies the calculations using expanded TwoPairOutcome expressions,
 without depending on Public/CriticTiming. This downstream module preserves the
 existing entry point and adds the equilibrium corollary through public transfer.
 No annotation or primitive definition is duplicated here.

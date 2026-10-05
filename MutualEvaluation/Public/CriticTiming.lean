@@ -21,15 +21,15 @@ In the **CA timing**, the critic rule is selected assuming truthful reporting an
 
 variable {X R : Type} (G : Game X R)
 
-def truthLaw : PMF (Outcome R) := law G truth
+def truthLaw : PMF (TwoPairOutcome R) := law G truth
 
 theorem truth_attained [Fintype R] :
     ∃ c : R × R → G.S, G.u c (truthLaw G) = V G (truthLaw G) := by
   obtain ⟨c, hc⟩ := regret_attained G (truthLaw G)
   exact ⟨c, (regret_zero_iff G c (truthLaw G)).1 hc⟩
 
-def CA (c : R × R → G.S) (ν : PMF (Outcome R)) : ℝ := G.u c ν
-def VPP (ν : PMF (Outcome R)) : ℝ := V G ν
+def CA (c : R × R → G.S) (ν : PMF (TwoPairOutcome R)) : ℝ := G.u c ν
+def VPP (ν : PMF (TwoPairOutcome R)) : ℝ := V G ν
 
 
 /- AUTHOR-PROSE-03
@@ -49,7 +49,7 @@ $$
 They agree at truth. In general, the payoff difference is the critic regret of CA.
 -/
 
-theorem timing_gap (c : R × R → G.S) (ν : PMF (Outcome R)) :
+theorem timing_gap (c : R × R → G.S) (ν : PMF (TwoPairOutcome R)) :
     VPP G ν - CA G c ν = regret G c ν := rfl
 
 
@@ -111,14 +111,14 @@ Intuitively, the CA mechanism's critic regret can change when the outcome law sh
 The CA mechanism is then instantiated using the cross outcome law; the objective $J$ is a joint-minus-product score.
 -/
 
-def μ (ρ : PMF (Outcome Bool)) : PMF (Bool × Bool) := cross ρ
-def π (ρ : PMF (Outcome Bool)) : PMF (Bool × Bool) :=
+def μ (ρ : PMF (TwoPairOutcome Bool)) : PMF (Bool × Bool) := cross ρ
+def π (ρ : PMF (TwoPairOutcome Bool)) : PMF (Bool × Bool) :=
   pair ((μ ρ).map Prod.fst) ((μ ρ).map Prod.snd)
 
-def T (ρ : PMF (Outcome Bool)) : ℝ :=
+def T (ρ : PMF (TwoPairOutcome Bool)) : ℝ :=
   (1 / 2) * ∑ p, |mass (μ ρ) p - mass (π ρ) p|
 
-def J (c : Critic Bool) (ρ : PMF (Outcome Bool)) : ℝ :=
+def J (c : Critic Bool) (ρ : PMF (TwoPairOutcome Bool)) : ℝ :=
   (∑ p, mass (μ ρ) p * (c p : ℝ)) -
     ∑ p, mass (π ρ) p * (c p : ℝ)
 
@@ -127,12 +127,12 @@ def J (c : Critic Bool) (ρ : PMF (Outcome Bool)) : ℝ :=
 The VPP mechanism, because the optimal critic is an element of the set of all binary critics, can be instantiated with:
 -/
 
-theorem variational_TV (ρ : PMF (Outcome Bool)) :
+theorem variational_TV (ρ : PMF (TwoPairOutcome Bool)) :
     (∀ c : Critic Bool, J c ρ ≤ T ρ) ∧ ∃ c : Critic Bool, J c ρ = T ρ := by
-  have J_eq (c : Critic Bool) (ν : PMF (Outcome Bool)) :
+  have J_eq (c : Critic Bool) (ν : PMF (TwoPairOutcome Bool)) :
       J c ν = Timing.J c (cross ν) := by
     simp only [J, π, μ, Timing.J, mass, Fintype.sum_prod_type, Probability.Proofs.mass_pair]
-  have T_eq (ν : PMF (Outcome Bool)) :
+  have T_eq (ν : PMF (TwoPairOutcome Bool)) :
       T ν = Boolean.TV (cross ν) := by
     simp only [T, π, μ, mass, Probability.Proofs.mass_pair, Boolean.TV, Fintype.sum_prod_type]
   obtain ⟨hu, ha⟩ := Timing.variational_TV (cross ρ)
@@ -166,7 +166,7 @@ def game : Game X Bool where
 The VPP score is $1+T/2$, and the CA score is this value minus critic regret $(T-J)/2$. This holds for any outcome law. The game is an instance of mutual evaluation: it satisfies robustness. Finally, truth maximizes its value over all reporting profiles.
 -/
 
-theorem value (ρ : PMF (Outcome Bool)) :
+theorem value (ρ : PMF (TwoPairOutcome Bool)) :
     VPP (game P f) ρ = 1 + T ρ / 2 := by
   have game_eq_mediated : game P f = mediatedGame P f := by
     unfold game mediatedGame bonusGame scores
@@ -175,7 +175,7 @@ theorem value (ρ : PMF (Outcome Bool)) :
     simp only [T, π, μ, mass, Probability.Proofs.mass_pair, Boolean.TV, Fintype.sum_prod_type]
   simpa only [VPP, game_eq_mediated, T_eq] using (Timing.values P f ρ).2
 
-theorem regret_formula (c : Critic Bool) (ρ : PMF (Outcome Bool)) :
+theorem regret_formula (c : Critic Bool) (ρ : PMF (TwoPairOutcome Bool)) :
     regret (game P f) c ρ = (T ρ - J c ρ) / 2 := by
   change VPP (game P f) ρ - (1 + J c ρ / 2) = _
   rw [value]
@@ -206,7 +206,7 @@ abbrev G : Game Bool Bool := game prior workers
 def agreement : Critic Bool := fun p =>
   if p.1 = p.2 then ⟨1, by simp [scores]⟩ else ⟨0, by simp [scores]⟩
 def flip : Kernel Bool Bool := fun b => PMF.pure (!b)
-def changed : PMF (Outcome Bool) := law G (Function.update truth 0 flip)
+def changed : PMF (TwoPairOutcome Bool) := law G (Function.update truth 0 flip)
 
 
 /- AUTHOR-PROSE-15
@@ -216,7 +216,7 @@ The score and valuation calculation yields
 theorem timing_table :
     CA G agreement (truthLaw G) = 5 / 4 ∧ CA G agreement changed = 3 / 4 ∧
       VPP G (truthLaw G) = 5 / 4 ∧ VPP G changed = 5 / 4 := by
-  have J_eq (c : Critic Bool) (ν : PMF (Outcome Bool)) :
+  have J_eq (c : Critic Bool) (ν : PMF (TwoPairOutcome Bool)) :
       J c ν = Timing.J c (cross ν) := by
     simp only [J, π, μ, Timing.J, mass, Fintype.sum_prod_type, Probability.Proofs.mass_pair]
   have game_eq_mediated (P : PMF Bool) (f : Fin 2 → Kernel Bool Bool) :
