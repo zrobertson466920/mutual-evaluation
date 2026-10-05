@@ -8,12 +8,18 @@ open MutualEvaluation
 #print Score
 #print Score.envelope
 #print independent
+#print Binary.scores
+#print Binary.Critic
+#print Probability.mass
 
 #print axioms Kernel
 #print axioms pair
 #print axioms Score
 #print axioms Score.envelope
 #print axioms independent
+#print axioms Binary.scores
+#print axioms Binary.Critic
+#print axioms Probability.mass
 
 /-! Shared-only clients need no assumptions on the outcome type. -/
 noncomputable section
@@ -27,5 +33,13 @@ example (U : Score R (PMF (List R))) (ρ : PMF (List R)) : ℝ :=
 
 example : Score R (PMF (List R)) :=
   ⟨{0}, by simp, fun _ _ => 0⟩
+
+example : Kernel R R := PMF.pure
+
+example : Binary.Critic R :=
+  fun _ => ⟨0, by simp [Binary.scores]⟩
+
+example (ρ : PMF Outcome) (a : Outcome) : ℝ :=
+  Probability.mass ρ a
 
 end

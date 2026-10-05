@@ -17,10 +17,10 @@ their author annotations.** Theorems include proofs checked by Lean.
 
 | Module | Material | Declarations |
 |---|---|---:|
-| [Core](MutualEvaluation/Public/Core.lean) | Shared kernels, scores, and independence | 5 |
+| [Core](MutualEvaluation/Public/Core.lean) | Shared kernels, scores, independence, binary critics, and probability mass | 8 |
 | [TwoPairOutcome](MutualEvaluation/Public/TwoPairOutcome.lean) | Paper game, sampling, robustness, and equilibrium | 14 |
 | [Abstract](MutualEvaluation/Public/Abstract.lean) | Value envelopes, regret, separability, and committed loss | 13 |
-| [CriticTiming](MutualEvaluation/Public/CriticTiming.lean) | CA/VPP timing, conditional transfer, Boolean objective, and example | 27 |
+| [CriticTiming](MutualEvaluation/Public/CriticTiming.lean) | CA/VPP timing, conditional transfer, Boolean objective, and example | 24 |
 | [Replication](MutualEvaluation/Public/Replication.lean) | Validity, Pearson/KL replication payments, information, regret, and single-worker equilibrium | 69 |
 
 Import all five modules with:
@@ -33,6 +33,10 @@ Internal modules supply proof dependencies and additional results. They are
 included in the package, but transitive availability through an import does not
 make an internal result part of the annotated interface. Public/Internal is an
 annotation boundary, not Lean visibility.
+
+Core and the internal replication expression support have no project import path
+through the paper game or its results. The full replication theorem import still
+has paper proof dependencies; this separation concerns shared prerequisites.
 
 ## Build and check
 

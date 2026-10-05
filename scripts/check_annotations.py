@@ -13,10 +13,10 @@ PUBLIC = ROOT / "MutualEvaluation/Public"
 
 # Counts and audit routing are technical regression checks, not annotations.
 MODULES = {
-    "Core": (5, "Core"),
+    "Core": (8, "Core"),
     "TwoPairOutcome": (14, "TwoPairOutcome"),
     "Abstract": (13, "Abstract"),
-    "CriticTiming": (27, "PublicTiming"),
+    "CriticTiming": (24, "PublicTiming"),
     "Replication": (69, "PublicReplication"),
 }
 
@@ -137,6 +137,10 @@ def check():
     assert project_import_closure("MutualEvaluation.Public.Core") == {
         "MutualEvaluation.Public.Core"
     }, "Core must not import paper declarations"
+    assert project_import_closure("MutualEvaluation.Internal.ReplicationExpressions") == {
+        "MutualEvaluation.Internal.ReplicationExpressions",
+        "MutualEvaluation.Public.Core",
+    }, "ReplicationExpressions must use only shared project prerequisites"
     selected = public_declarations()
     owners = {}
     for path in (ROOT / "MutualEvaluation").rglob("*.lean"):

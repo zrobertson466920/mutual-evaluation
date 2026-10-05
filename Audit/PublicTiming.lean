@@ -1,8 +1,8 @@
 import MutualEvaluation.Public.CriticTiming
 
 /-!
-All 27 selected timing declarations are actual Lean code in Public/CriticTiming.
-These checks inspect the 18 definitions/abbreviations and nine theorem proofs,
+All 24 selected timing declarations are actual Lean code in Public/CriticTiming.
+These checks inspect the 15 definitions/abbreviations and nine theorem proofs,
 including their recursive dependencies. The public annotation has one file;
 the upstream calculation modules use expanded expressions, not public imports.
 -/
@@ -15,9 +15,7 @@ the upstream calculation modules use expanded expressions, not public imports.
 #check @MutualEvaluation.Timing.timing_gap
 #print MutualEvaluation.Abstract.truthValueMaximal
 #check @MutualEvaluation.Abstract.truthful_global_optimal
-#print MutualEvaluation.Binary.scores
-#print MutualEvaluation.Binary.Critic
-#print MutualEvaluation.Probability.mass
+
 #print MutualEvaluation.Timing.CAVPP.μ
 #print MutualEvaluation.Timing.CAVPP.π
 #print MutualEvaluation.Timing.CAVPP.T
@@ -43,9 +41,7 @@ the upstream calculation modules use expanded expressions, not public imports.
 #print axioms MutualEvaluation.Timing.timing_gap
 #print axioms MutualEvaluation.Abstract.truthValueMaximal
 #print axioms MutualEvaluation.Abstract.truthful_global_optimal
-#print axioms MutualEvaluation.Binary.scores
-#print axioms MutualEvaluation.Binary.Critic
-#print axioms MutualEvaluation.Probability.mass
+
 #print axioms MutualEvaluation.Timing.CAVPP.μ
 #print axioms MutualEvaluation.Timing.CAVPP.π
 #print axioms MutualEvaluation.Timing.CAVPP.T

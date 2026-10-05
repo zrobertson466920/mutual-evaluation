@@ -22,5 +22,19 @@ def Score.envelope {R Θ : Type} (U : Score R Θ) (θ : Θ) : ℝ :=
 def independent {A B : Type} (p : PMF (A × B)) : Prop :=
   ∀ a b, p (a, b) = (p.map Prod.fst) a * (p.map Prod.snd) b
 
+/- Binary critic primitives shared by timing and replication. -/
+namespace Binary
+
+def scores : Finset ℝ := {0, 1}
+abbrev Critic (R : Type) := R × R → scores
+
+end Binary
+
+namespace Probability
+
+def mass {A : Type} (p : PMF A) (a : A) : ℝ := (p a).toReal
+
+end Probability
+
 end MutualEvaluation
 end

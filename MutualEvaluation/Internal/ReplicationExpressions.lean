@@ -1,4 +1,4 @@
-import MutualEvaluation.Public.CriticTiming
+import MutualEvaluation.Public.Core
 import Mathlib.Probability.ProductMeasure
 
 /-!
