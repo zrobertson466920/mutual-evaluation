@@ -86,19 +86,7 @@ end Abstract
 **A simple Boolean objective.** For a concrete comparison we take $R = \lbrace 0, 1 \rbrace$ and specialize to CA and VPP with Total Variation divergence where it is known an optimal critic exists with $S = \lbrace 0, 1 \rbrace.$
 -/
 
-namespace Binary
-
-def scores : Finset ℝ := {0, 1}
-abbrev Critic (R : Type) := R × R → scores
-
-end Binary
-
-namespace Probability
-
-def mass {A : Type} (p : PMF A) (a : A) : ℝ := (p a).toReal
-
-end Probability
-
+/- The shared binary critic and probability primitives are supplied by Core. -/
 open Abstract Binary Probability
 
 namespace Timing.CAVPP
