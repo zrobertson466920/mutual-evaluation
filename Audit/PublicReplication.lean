@@ -1,7 +1,7 @@
 import MutualEvaluation.Public.Replication
 
 /-!
-Technical inspection of the 69 declarations in Public/Replication.
+Technical inspection of the 70 declarations in Public/Replication.
 Public declarations and author annotations live in that module.
 This batch is not an annotation or an additional mathematical assumption.
 Source ownership and audit coverage are checked by scripts/check_annotations.py.
@@ -13,6 +13,7 @@ Computational annotation closure is checked by scripts/check_interface.py.
 #print MutualEvaluation.Binary.annotate
 #check @MutualEvaluation.Binary.annotate_valid
 #check @MutualEvaluation.Binary.valid_iff_annotation
+#print MutualEvaluation.Replication.SampleSpace
 #print MutualEvaluation.Replication.Transcript
 #print MutualEvaluation.Replication.iid
 #print MutualEvaluation.Replication.conditionalTranscriptLaw
@@ -83,6 +84,7 @@ Computational annotation closure is checked by scripts/check_interface.py.
 #print axioms MutualEvaluation.Binary.annotate
 #print axioms MutualEvaluation.Binary.annotate_valid
 #print axioms MutualEvaluation.Binary.valid_iff_annotation
+#print axioms MutualEvaluation.Replication.SampleSpace
 #print axioms MutualEvaluation.Replication.Transcript
 #print axioms MutualEvaluation.Replication.iid
 #print axioms MutualEvaluation.Replication.conditionalTranscriptLaw
@@ -147,3 +149,23 @@ Computational annotation closure is checked by scripts/check_interface.py.
 #print axioms MutualEvaluation.Replication.Example.kl_regret_table
 #print axioms MutualEvaluation.Replication.Example.chiSquared_bijective_annotation
 #print axioms MutualEvaluation.Replication.Example.kl_bijective_annotation
+
+/-! Type-name compatibility and unchanged tuple behavior; technical tests only. -/
+section
+open MutualEvaluation.Replication
+
+example (R : Type) : Transcript R = SampleSpace R := rfl
+
+example (R : Type) :
+    SampleSpace R = (R × ((ℕ → R) × (ℕ → R))) := rfl
+
+example {R : Type} (a : R) (s n : ℕ → R) :
+    ((a, (s, n)) : SampleSpace R).1 = a := rfl
+
+example {R : Type} (a : R) (s n : ℕ → R) :
+    ((a, (s, n)) : SampleSpace R).2.1 = s := rfl
+
+example {R : Type} (a : R) (s n : ℕ → R) :
+    ((a, (s, n)) : SampleSpace R).2.2 = n := rfl
+
+end

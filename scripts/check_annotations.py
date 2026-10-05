@@ -17,7 +17,7 @@ MODULES = {
     "TwoPairOutcome": (14, "TwoPairOutcome"),
     "Abstract": (13, "Abstract"),
     "CriticTiming": (24, "PublicTiming"),
-    "Replication": (69, "PublicReplication"),
+    "Replication": (70, "PublicReplication"),
 }
 
 
@@ -193,7 +193,7 @@ def check():
     root_imports = re.findall(
         r"^import (\S+)$", (ROOT / "MutualEvaluation.lean").read_text(), re.M)
     assert root_imports == ["MutualEvaluation.Public." + module for module in MODULES]
-    print("PASS 128 Public declarations; 16 timing and 14 replication annotation passages.")
+    print("PASS 129 Public declarations; 16 timing and 14 replication annotation passages.")
     print("Public Lean sources are authoritative; these checks do not certify author intent.")
 
 
