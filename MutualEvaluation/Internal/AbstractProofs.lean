@@ -1,8 +1,8 @@
-import MutualEvaluation.Public.Core
+import MutualEvaluation.Public.TwoPairOutcome
 
 /-!
 INTERNAL — proof support for the author's annotated Abstract interface.
-The conclusions use Core expressions directly; this module does not define
+The conclusions use TwoPairOutcome expressions directly; this module does not define
 the public regret or payoff-replacement constructions.
 No declaration here is an additional author-certified paper statement.
 -/
@@ -15,13 +15,13 @@ private theorem policy_nonempty : Nonempty (R × R → G.S) := by
   obtain ⟨s, hs⟩ := G.nonempty
   exact ⟨fun _ => ⟨s, hs⟩⟩
 
-private theorem le_value [Fintype R] (ρ : PMF (Outcome R))
+private theorem le_value [Fintype R] (ρ : PMF (TwoPairOutcome R))
     (c : R × R → G.S) : G.u c ρ ≤ V G ρ := by
   classical
   have hf : (Set.range fun d => G.u d ρ).Finite := Set.finite_range _
   exact le_csSup hf.bddAbove ⟨c, rfl⟩
 
-private theorem exists_eq_value [Fintype R] (ρ : PMF (Outcome R)) :
+private theorem exists_eq_value [Fintype R] (ρ : PMF (TwoPairOutcome R)) :
     ∃ c : R × R → G.S, G.u c ρ = V G ρ := by
   classical
   have hf : (Set.range fun c => G.u c ρ).Finite := Set.finite_range _
@@ -29,28 +29,28 @@ private theorem exists_eq_value [Fintype R] (ρ : PMF (Outcome R)) :
   have hne : (Set.range fun d => G.u d ρ).Nonempty := ⟨G.u c ρ, ⟨c, rfl⟩⟩
   exact hne.csSup_mem hf
 
-theorem payoff_eq_value_sub_regret (c : R × R → G.S) (ρ : PMF (Outcome R)) :
+theorem payoff_eq_value_sub_regret (c : R × R → G.S) (ρ : PMF (TwoPairOutcome R)) :
     G.u c ρ = V G ρ - (V G ρ - G.u c ρ) := by
   ring
 
-theorem regret_nonneg [Fintype R] (c : R × R → G.S) (ρ : PMF (Outcome R)) :
+theorem regret_nonneg [Fintype R] (c : R × R → G.S) (ρ : PMF (TwoPairOutcome R)) :
     0 ≤ V G ρ - G.u c ρ :=
   sub_nonneg.mpr (le_value G ρ c)
 
-theorem regret_zero_iff (c : R × R → G.S) (ρ : PMF (Outcome R)) :
+theorem regret_zero_iff (c : R × R → G.S) (ρ : PMF (TwoPairOutcome R)) :
     V G ρ - G.u c ρ = 0 ↔ G.u c ρ = V G ρ :=
   sub_eq_zero.trans eq_comm
 
-theorem regret_attained [Fintype R] (ρ : PMF (Outcome R)) :
+theorem regret_attained [Fintype R] (ρ : PMF (TwoPairOutcome R)) :
     ∃ c : R × R → G.S, V G ρ - G.u c ρ = 0 := by
   obtain ⟨c, hc⟩ := exists_eq_value G ρ
   exact ⟨c, sub_eq_zero.mpr hc.symm⟩
 
 theorem realizes_regret [Fintype R]
-    (F : PMF (Outcome R) → ℝ)
-    (r : (R × R → G.S) → PMF (Outcome R) → ℝ)
+    (F : PMF (TwoPairOutcome R) → ℝ)
+    (r : (R × R → G.S) → PMF (TwoPairOutcome R) → ℝ)
     (hn : ∀ c ρ, 0 ≤ r c ρ) (hz : ∀ ρ, ∃ c, r c ρ = 0)
-    (ρ : PMF (Outcome R)) :
+    (ρ : PMF (TwoPairOutcome R)) :
     V ({ G with u := fun c ν => F ν - r c ν } : Game X R) ρ = F ρ ∧
       ∀ c, V ({ G with u := fun d ν => F ν - r d ν } : Game X R) ρ -
         (F ρ - r c ρ) = r c ρ := by
@@ -82,7 +82,7 @@ theorem same_value_robustness_iff (H : Game X R)
   simp only [robust, robustAt, hl, hV]
 
 theorem gap_iff_regret_invariant_on [Fintype R] {L : Type}
-    (g : L → PMF (Outcome R)) :
+    (g : L → PMF (TwoPairOutcome R)) :
     (∀ c d l k, G.u c (g l) - G.u c (g k) =
       G.u d (g l) - G.u d (g k)) ↔
       ∀ c l k, V G (g l) - G.u c (g l) = V G (g k) - G.u c (g k) := by
@@ -101,7 +101,7 @@ theorem gap_iff_regret_invariant_on [Fintype R] {L : Type}
     linarith
 
 theorem gap_iff_separable_on {L : Type}
-    (g : L → PMF (Outcome R)) (l₀ : L) :
+    (g : L → PMF (TwoPairOutcome R)) (l₀ : L) :
     (∀ c d l k, G.u c (g l) - G.u c (g k) =
       G.u d (g l) - G.u d (g k)) ↔
       ∃ (F : L → ℝ) (B : (R × R → G.S) → ℝ),
@@ -119,7 +119,7 @@ theorem gap_iff_separable_on {L : Type}
     rw [h, h, h, h]
     ring
 
-theorem committed_loss (c : R × R → G.S) (ρ ν : PMF (Outcome R))
+theorem committed_loss (c : R × R → G.S) (ρ ν : PMF (TwoPairOutcome R))
     (hc : G.u c ρ = V G ρ) :
     G.u c ρ - G.u c ν = (V G ρ - V G ν) + (V G ν - G.u c ν) := by
   rw [hc]

@@ -6,7 +6,7 @@ INTERNAL — single-worker equilibrium for channel-parameterized scores.
 
 The worker selects one reporting kernel before the experiment; the critic
 selects one rule. Both receive the same expected score. This interface uses
-Score directly and does not identify the replication experiment with Core's
+Score directly and does not identify the replication experiment with TwoPairOutcome's
 two-worker Game or assert its robustness condition.
 -/
 

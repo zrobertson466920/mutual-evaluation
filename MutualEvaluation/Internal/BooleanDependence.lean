@@ -97,7 +97,7 @@ theorem D_post (μ : PMF (Bool × Bool)) (κ η : Kernel Bool Bool) :
   simp only [D, determinant_post, abs_mul]
 
 /-- Joint local data processing. Reporter-1 robustness will use η = PMF.pure;
-the second-coordinate bound is proved here, not assumed in Core. -/
+the second-coordinate bound is proved here, not assumed in TwoPairOutcome. -/
 theorem data_processing (μ : PMF (Bool × Bool)) (κ η : Kernel Bool Bool) :
     D (post μ κ η) ≤ D μ := by
   calc

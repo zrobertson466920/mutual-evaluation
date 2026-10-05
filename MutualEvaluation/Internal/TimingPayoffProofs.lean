@@ -100,7 +100,7 @@ def mediatedGame : Game X Bool :=
   { bonusGame P f with u := fun c ρ => 1 + J c (cross ρ) / 2 }
 
 /-! Proof helpers use maximum attainment, not legacy certificates. -/
-private theorem value_of_max (G : Game X Bool) (ρ : PMF (Outcome Bool)) (F : ℝ)
+private theorem value_of_max (G : Game X Bool) (ρ : PMF (TwoPairOutcome Bool)) (F : ℝ)
     (hu : ∀ c, G.u c ρ ≤ F) (ha : ∃ c, G.u c ρ = F) : V G ρ = F := by
   obtain ⟨c, hc⟩ := regret_attained G ρ
   have hc' := (regret_zero_iff G c ρ).1 hc
@@ -108,7 +108,7 @@ private theorem value_of_max (G : Game X Bool) (ρ : PMF (Outcome Bool)) (F : �
   exact le_antisymm (hc' ▸ hu c)
     (hd ▸ sub_nonneg.mp (regret_nonneg G d ρ))
 
-theorem values (ρ : PMF (Outcome Bool)) :
+theorem values (ρ : PMF (TwoPairOutcome Bool)) :
     V (bonusGame P f) ρ = 1 + TV (cross ρ) / 2 ∧
       V (mediatedGame P f) ρ = 1 + TV (cross ρ) / 2 := by
   constructor
@@ -129,7 +129,7 @@ theorem values (ρ : PMF (Outcome Bool)) :
       change 1 + J c (cross ρ) / 2 = 1 + TV (cross ρ) / 2
       rw [hc]
 
-theorem regrets (c : Critic Bool) (ρ : PMF (Outcome Bool)) :
+theorem regrets (c : Critic Bool) (ρ : PMF (TwoPairOutcome Bool)) :
     regret (bonusGame P f) c ρ = 1 - (c (false, false) : ℝ) ∧
       regret (mediatedGame P f) c ρ = (TV (cross ρ) - J c (cross ρ)) / 2 := by
   unfold regret
@@ -177,7 +177,7 @@ private theorem maximal_of_envelope (G : Game X Bool)
   simp only [hv, TV_eq]
   linarith
 
-/-- Both-worker data processing is proved for these payoffs, not assumed in Core. -/
+/-- Both-worker data processing is proved for these payoffs, not assumed in TwoPairOutcome. -/
 theorem truth_value_maximal :
     (∀ σ, V (bonusGame P f) (law (bonusGame P f) σ) ≤
       V (bonusGame P f) (law (bonusGame P f) truth)) ∧

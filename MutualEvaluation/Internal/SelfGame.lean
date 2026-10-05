@@ -8,9 +8,9 @@ import MutualEvaluation.Internal.Transfer
 #  self-evaluation game
 
 The payoff is defined on every outcome law and uses only reporter 0's self pair.
-Invalid critics receive zero; validity does not restrict Core's strategy space.
+Invalid critics receive zero; validity does not restrict TwoPairOutcome's strategy space.
 The value and posterior identities below concern generated fair-binary laws.
-No sampling loop or Core robustness certificate is asserted.
+No sampling loop or TwoPairOutcome robustness certificate is asserted.
 -/
 
 noncomputable section
@@ -36,11 +36,11 @@ theorem self_record (σ : Fin 2 → Kernel R R) :
     (law (game f) σ).map Prod.fst = repeated (reported f σ) :=
   self_law (game f) σ
 
-theorem payoff_valid (c : Critic R) (hc : rp_Binary_Valid c) (ρ : PMF (Outcome R)) :
+theorem payoff_valid (c : Critic R) (hc : rp_Binary_Valid c) (ρ : PMF (TwoPairOutcome R)) :
     (game f).u c ρ = agreement c (ρ.map Prod.fst) := by
   simp only [game, if_pos hc]
 
-theorem payoff_invalid (c : Critic R) (hc : ¬ rp_Binary_Valid c) (ρ : PMF (Outcome R)) :
+theorem payoff_invalid (c : Critic R) (hc : ¬ rp_Binary_Valid c) (ρ : PMF (TwoPairOutcome R)) :
     (game f).u c ρ = 0 := by
   simp only [game, if_neg hc]
 

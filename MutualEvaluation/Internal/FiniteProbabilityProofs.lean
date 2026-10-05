@@ -1,4 +1,4 @@
-import MutualEvaluation.Public.Core
+import MutualEvaluation.Public.TwoPairOutcome
 
 /-! INTERNAL — implementation and proof support; not an author-certified annotation file. -/
 

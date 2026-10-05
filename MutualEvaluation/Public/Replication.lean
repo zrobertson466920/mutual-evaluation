@@ -376,7 +376,7 @@ end MutualEvaluation.Replication
 **Reading note.** These remain the original Bochner integrals, not definitions
 by information targets. Their envelopes include every binary critic.
 Integrability is proved in RP-09 rather than inferred from the total integral
-operation. KL stays channel-parameterized; Core's four-report law is not assumed
+operation. KL stays channel-parameterized; TwoPairOutcome's four-report law is not assumed
 to determine its score.
 
 ## RP-08 — Information conventions
@@ -881,7 +881,7 @@ end MutualEvaluation.Replication
 /-
 **Reading note.** `reportingNash` spells out the two common-payoff best-response
 inequalities for one worker and one critic. `PMF.pure` is truthful reporting.
-This is not Core's two-worker `nash` predicate or a Core robustness certificate.
+This is not TwoPairOutcome's two-worker `nash` predicate or a TwoPairOutcome robustness certificate.
 Deviations replace the whole reporting kernel before sampling; adaptive
 within-loop strategies are outside this interface.
 
